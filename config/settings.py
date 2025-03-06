@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-x(fb1c_p==f7+t9!jys*%e59mf0rz!ptxu!o=)c0g$a_l=b3ag
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,7 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
+
+    'channels',
+    'rest_framework',
+    'django_extensions',
+    'csp',
 
     'chats',
 ]
@@ -52,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -84,6 +91,8 @@ DATABASES = {
         "NAME": os.getenv("NAME"),
         "USER": os.getenv("USER"),
         "PASSWORD": os.getenv("PASSWORD"),
+        "HOST": os.getenv("HOST"),
+        "PORT": os.getenv("PORT"),
         "OPTIONS": {
             "client_encoding": "UTF8",
         },
@@ -131,3 +140,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ASGI_APPLICATION = 'config.asgi.application'
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_CONNECT_SRC = ("'self'", "ws://localhost:8000", "wss://localhost:8000")
