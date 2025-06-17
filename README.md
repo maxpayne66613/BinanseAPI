@@ -1,4 +1,4 @@
-# Django Binance WebSocket API
+Django Binance WebSocket API
 
 ### Этот проект представляет собой Django-приложение с интеграцией WebSocket для получения данных из публичного API Binance. WebSocket-соединение используется для получения информации о рыночных ценах в реальном времени.
 
